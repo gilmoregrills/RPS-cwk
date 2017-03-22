@@ -20,7 +20,13 @@
       <div id="wrap">
         <div id="pageheader" class="col-md-12">
           <h1>Rock Paper Scissors</h1>
-          <p> a dumb game by dumb students </p>
+          <h4> a dumb game by dumb students </h4>
+          <p>Temporay Navigation</p>
+            <a href="startGame.jsp">Start/Join Game |</a>
+            <a href="playGame.jsp"> Play Game Page |</a>
+            <a href="leaderboard.jsp"> Leaderboard |</a>
+            <a href="createAccount.jsp"> Create Account Page |</a>
+            <a href="index.jsp"> Home/Login Page</a>
           <jsp:invoke fragment="header"/>
         </div>
 

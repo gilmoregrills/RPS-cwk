@@ -9,8 +9,10 @@
 <t:base>
       
     <jsp:body>
-        <p>hey look at this message</p>
-        <a href="otherpage.jsp">go to another page</a>
+        <h2>Login</h2>
+        <p> webform here </p>
+        <h2> Create Account</h2>
+        <p>link to account creation or longer webform</p>
     </jsp:body>
         
 </t:base>

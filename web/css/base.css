@@ -25,6 +25,7 @@ html, body {
     overflow: auto;
     text-align: center;
     min-height: 200px;
+    padding-top: 50px;
     padding-bottom: 150px;
 }
 
