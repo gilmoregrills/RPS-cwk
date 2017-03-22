@@ -1,2 +1,5 @@
-# RPS-cwk
+# rps-cwk
+
 Rock paper scissors using EJB
+
+
