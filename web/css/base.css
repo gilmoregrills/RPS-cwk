@@ -1,0 +1,40 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22-Mar-2017, 15:51:10
+    Author     : gilmoregrills
+*/
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#pageheader {
+    padding-bottom: 30px;
+    text-align: center;
+    background-color: #e6ffff;
+}
+
+#body {
+    overflow: auto;
+    text-align: center;
+    min-height: 200px;
+    padding-bottom: 150px;
+}
+
+#pagefooter {
+    position:relative;
+    margin-top: -150px;
+    text-align: center;
+    background-color: #e6ffff;
+    height: 150px;
+    clear: both;
+}
+
+
