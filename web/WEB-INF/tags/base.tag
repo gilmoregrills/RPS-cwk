@@ -22,11 +22,11 @@
           <h1>Rock Paper Scissors</h1>
           <h4> a dumb game by dumb students </h4>
           <p>Temporay Navigation</p>
-            <a href="startGame.jsp">Start/Join Game |</a>
-            <a href="playGame.jsp"> Play Game Page |</a>
-            <a href="leaderboard.jsp"> Leaderboard |</a>
-            <a href="createAccount.jsp"> Create Account Page |</a>
-            <a href="index.jsp"> Home/Login Page</a>
+            <a href="startGame">Start/Join Game |</a>
+            <a href="playGame"> Play Game Page |</a>
+            <a href="leaderboard"> Leaderboard |</a>
+            <a href="createAccount"> Create Account Page |</a>
+            <a href="./"> Home/Login Page</a>
           <jsp:invoke fragment="header"/>
         </div>
 
