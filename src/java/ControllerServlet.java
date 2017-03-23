@@ -27,68 +27,86 @@ import javax.servlet.http.HttpServletResponse;
 public class ControllerServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ControllerServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ControllerServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
+    //doGet primarily handles page requests, as you can kinda see from the
+    //if/else blocks below 
+    //right now these aren't connected to the pages (any links just directly 
+    //display the .jsp file)
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    throws ServletException, IOException {
+
+        String userPath = request.getServletPath();
+
+        //if index page is requested the user should be logged out
+        if (userPath.equals("/index")) {
+            //return index page & log out the user
+
+        } else if (userPath.equals("/leaderboard")) {
+            //return leaderboard page
+
+        } else if (userPath.equals("/startGame")) {
+            //return start game page/form/list of logged in users
+
+        } else if (userPath.equals("/playGame")) {
+            //return the game view (depending on how we implement it)
+
+        } else if (userPath.equals("/createAccount")) {
+            //return the create account view
+        }
+
+        // use RequestDispatcher to forward request internally
+        String url = "/WEB-INF/view" + userPath + ".jsp";
+
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
+    //doPost is I guess what we'll use to take all account detail input (login &
+    //creation) as well as the startGame requests
+    //I am unsure as to how we're planning to implement the actual gameplay 
+    //elements, maybe in their own method? 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+    throws ServletException, IOException {
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        String userPath = request.getServletPath();
+     
+        if (userPath.equals("/")) {
+            // handle login stuff
+
+        } else if (userPath.equals("/")) {
+            //handle account creation (including adding new user to the db)
+
+        } else if (userPath.equals("/")) {
+            //handle starting a game/joining a game
+            //(if game exists between those users && user = one of the users,
+            //then join game, if not: create new game)
+        }
+
+        // use RequestDispatcher to forward request internally
+        String url = "/WEB-INF/view" + userPath + ".jsp";
+
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
 }
