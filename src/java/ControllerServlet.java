@@ -36,18 +36,15 @@ public class ControllerServlet extends HttpServlet {
     @Override
     //doGet primarily handles page requests, as you can kinda see from the
     //if/else blocks below 
-    //right now these aren't connected to the pages (any links just directly 
-    //display the .jsp file)
+    //All of the pages aside from the index page should be here
+    //the index page can just be accessed from the root url and
+    //linked to on pages with "./"
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 
         String userPath = request.getServletPath();
-
-        //if index page is requested the user should be logged out
-        if (userPath.equals("/index")) {
-            //return index page & log out the user
-
-        } else if (userPath.equals("/leaderboard")) {
+        
+        if (userPath.equals("/leaderboard")) {
             //return leaderboard page
 
         } else if (userPath.equals("/startGame")) {
@@ -59,7 +56,7 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/createAccount")) {
             //return the create account view
         }
-
+        
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/view" + userPath + ".jsp";
 
