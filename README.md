@@ -17,7 +17,7 @@ We're using JDB because we only need small table and it's the easiest integrated
 Users(Username, ID, Password, Score)
 robin,1,robin,0
 aatish,2,aatish,0
-brynn,3,brynn,0
+bryn,3,bryn,0
 
 I can always send y'all a copy of the DB, it's just not included in repo of course and it seems possibly easier to just a local one up for yourself. 
 
