@@ -98,20 +98,24 @@ public class ControllerServlet extends HttpServlet {
         //user any time a POST request is made (on login
         //etc)
         HttpSession session = request.getSession();
-        //might also need to explicitly assign a user attr
-        //to the session
+        //here's the user object that will be attached to the
+        //session on login, get it here if it exists so as to
+        //be able to use it below
         //User user = (User) session.getAttribute("user");
         
         if (userPath.equals("/")) {
-            // handle login stuff
-
+            //handle login stuff here
+            //find the user entity that matches the login deets
+            //session.setAttribute("user", the-user-id);
+            
         } else if (userPath.equals("/")) {
             //handle account creation (including adding new user to the db)
-
+            //create the user entity in the database using
+            //the constructor commented
         } else if (userPath.equals("/")) {
-            //handle starting a game/joining a game
-            //(if game exists between those users && user = one of the users,
-            //then join game, if not: create new game)
+            //handle request to start a game (probs just pass
+            //data to the game-handling code)
+            
         }
 
         // use RequestDispatcher to forward request internally
