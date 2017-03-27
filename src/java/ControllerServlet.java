@@ -11,6 +11,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.ejb.EJB;
+//import session.UserFacade;
+
 
 /**
  *
@@ -26,6 +30,14 @@ import javax.servlet.http.HttpServletResponse;
                            "/playGame"})
 public class ControllerServlet extends HttpServlet {
 
+    
+    //@EJB
+    //private UserFacade userFacade;
+    
+    //public void init() throws ServletException {
+        
+    //}
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
@@ -76,14 +88,20 @@ public class ControllerServlet extends HttpServlet {
      */
     @Override
     //doPost is I guess what we'll use to take all account detail input (login &
-    //creation) as well as the startGame requests
-    //I am unsure as to how we're planning to implement the actual gameplay 
-    //elements, maybe in their own method? 
+    //creation)
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 
         String userPath = request.getServletPath();
-     
+        //this will create a session if one does not
+        //exist, or return the existing session for the
+        //user any time a POST request is made (on login
+        //etc)
+        HttpSession session = request.getSession();
+        //might also need to explicitly assign a user attr
+        //to the session
+        //User user = (User) session.getAttribute("user");
+        
         if (userPath.equals("/")) {
             // handle login stuff
 
@@ -101,7 +119,7 @@ public class ControllerServlet extends HttpServlet {
 
         try {
             request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
+        } catch (IOException | ServletException ex) {
             ex.printStackTrace();
         }
     }
