@@ -11,8 +11,12 @@
     
     <jsp:body>
         <h2>Create Account</h2>
-        <p>create account form or something</p>
+        <form href="/create" method="POST" enctype="multipart/form-data"> 
+            <input type="text" name="username" value="username" />
+            <input type="password" name="password" value="password" />
+            <input type="submit" value="Submit" />
+        </form>
     </jsp:body>
-    
+        
     
 </t:base>
