@@ -13,9 +13,14 @@
         <h2>Login</h2>
         <form href="/login" method="POST" enctype="multipart/form-data"> 
             <input type="text" name="username" value="username" />
+            <br>
             <input type="password" name="password" value="password" />
+            <br>
             <input type="submit" value="Submit" />
         </form>
+        <br>
+        <br>
+        <br>
     </jsp:body>
         
     
