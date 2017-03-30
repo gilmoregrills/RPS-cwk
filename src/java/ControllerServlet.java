@@ -52,12 +52,19 @@ public class ControllerServlet extends HttpServlet {
     //linked to on pages with "./"
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-
+        
+        HttpSession session = request.getSession();
+        Users currentUser;
         String userPath = request.getServletPath();
         System.out.println("userPath : "+request.getServletPath());
         
         if (userPath.equals("/leaderboard")) {
-            //return leaderboard page
+            if (session.getAttribute("user") != null) {
+                currentUser = userFacade.find(session.getAttribute("user"));
+                session.setAttribute("score", currentUser.getScore());
+            } else {
+                
+            }
 
         } else if (userPath.equals("/startGame")) {
             //return start game page/form/list of logged in users
@@ -119,6 +126,7 @@ public class ControllerServlet extends HttpServlet {
             System.out.println("Logging in with:");
             System.out.println("Username: "+returningUser.getUsername()+" Password: "+returningUser.getPassword());
             session.setAttribute("user", returningUser.getUsername());
+            session.setAttribute("score", returningUser.getScore());
             System.out.println("User attribute of current session is: "+session.getAttribute("user"));
             //once logged in, redirect to startGame page
             userPath = "/startGame";
