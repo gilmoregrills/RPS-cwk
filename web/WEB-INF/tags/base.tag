@@ -24,9 +24,10 @@
           <p>Temporay Navigation</p>
             <a href="startGame">Start/Join Game |</a>
             <a href="playGame"> Play Game Page |</a>
-            <a href="leaderboard"> Leaderboard |</a>
+            <a href="leaderboard"> Leaderboard Page |</a>
             <a href="createAccount"> Create Account Page |</a>
-            <a href="./"> Home/Login Page</a>
+            <a href="loginPage">Login Page |</a>
+            <a href="./"> Home Page</a>
           <jsp:invoke fragment="header"/>
         </div>
 

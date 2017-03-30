@@ -12,7 +12,7 @@
     <jsp:body>
         <h2>Leaderboard:</h2>
         
-        <h2>Your Rank:</h2>
+        <h2>Your Score:</h2>
     </jsp:body>
     
     

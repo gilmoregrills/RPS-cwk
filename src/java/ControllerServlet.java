@@ -95,6 +95,9 @@ public class ControllerServlet extends HttpServlet {
         
         String userPath = request.getServletPath();
         System.out.println("userPath : "+request.getServletPath());
+        //the current logged in user, not initialized yet
+        Users currentUser;
+        
         //hacky workarounds, for POST requests with incorrect paths???
         if (userPath.equals("/createAccount")) {
             userPath = "/create";
@@ -102,25 +105,23 @@ public class ControllerServlet extends HttpServlet {
         if (userPath.equals("/loginPage")) {
             userPath = "/login";
         }
-        //this will create a session if one does not
-        //exist, or return the existing session for the
-        //user any time a POST request is made (on login
-        //etc)
-        HttpSession session = request.getSession();
-        //here's the user object thawt will be attached to the
-        //session on login, get it here if it exists so as to
-        //be able to use it below
-        //User user = (User) session.getAttribute("user");
         
+        //this creates a session object for this connection if one does not already exist 
+        HttpSession session = request.getSession();
+        //if this session has a user attribute, get the associated Users entity
+        //and initialize currentUser with it, for user later
+        if (session.getAttribute("user") != null) {
+            System.out.println("User attribute of current session is: "+session.getAttribute("user"));
+            currentUser = userFacade.find(session.getAttribute("user"));
+        }
         if (userPath.equals("/login")) {
-            Users currentUser = userFacade.find(request.getParameter("username"));
+            Users returningUser = userFacade.find(request.getParameter("username"));
             System.out.println("Logging in with:");
-            System.out.println("Username: "+currentUser.getUsername()+" Password: "+currentUser.getPassword());
-            userPath = "/leaderboard";
-            
-            
-            //handle login stuff here
-            //find the user entity that matches the login deets
+            System.out.println("Username: "+returningUser.getUsername()+" Password: "+returningUser.getPassword());
+            session.setAttribute("user", returningUser.getUsername());
+            System.out.println("User attribute of current session is: "+session.getAttribute("user"));
+            //once logged in, redirect to startGame page
+            userPath = "/startGame";
             
         } else if (userPath.equals("/create")) {
             String userName = request.getParameter("username");
@@ -131,11 +132,9 @@ public class ControllerServlet extends HttpServlet {
             System.out.println("Username: "+newUser.getUsername()+" Password: "+newUser.getPassword());
             System.out.println("there are "+userFacade.count()+" users so far");
             userFacade.create(newUser);
-            userPath = "/leaderboard";
+            //account created, redirect to login page
+            userPath = "/loginPage";
             
-            //handle account creation (including adding new user to the db)
-            //create the user entity in the database using
-            //the constructor commented
         } else if (userPath.equals("./")) {
             //handle request to start a game (probs just pass
             //data to the game-handling code)

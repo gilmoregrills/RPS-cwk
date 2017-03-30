@@ -10,7 +10,7 @@
 <t:base>
     
     <jsp:body>
-        <h2>Create Account</h2>
+        <h2>Login</h2>
         <form href="/login" method="POST" enctype="multipart/form-data"> 
             <input type="text" name="username" value="username" />
             <input type="password" name="password" value="password" />

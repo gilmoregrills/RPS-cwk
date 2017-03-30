@@ -9,10 +9,8 @@
 <t:base>
       
     <jsp:body>
-        <h2>Login</h2>
-        <p> webform here </p>
-        <h2> Create Account</h2>
-        <p>link to account creation or longer webform</p>
+        <a href="loginPage"><h2>Continue to Login</h2></a>
+        <a href="createAccount"><h2>Create account first</h2></a>
     </jsp:body>
         
 </t:base>
