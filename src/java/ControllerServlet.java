@@ -28,7 +28,9 @@ import entity.Users;
                            "/startGame", 
                            "/createAccount", 
                            "/playGame",
-                           "/create"})
+                           "/create",
+                           "/login",
+                           "/loginPage"})
 public class ControllerServlet extends HttpServlet {
 
     
@@ -66,6 +68,8 @@ public class ControllerServlet extends HttpServlet {
         } else if (userPath.equals("/createAccount")) {
             System.out.println("accessed createAccount");
             //return the create account view
+        } else if (userPath.equals("/loginPage")) {
+            
         }
         
         // use RequestDispatcher to forward request internally
@@ -91,8 +95,12 @@ public class ControllerServlet extends HttpServlet {
         
         String userPath = request.getServletPath();
         System.out.println("userPath : "+request.getServletPath());
+        //hacky workarounds, for POST requests with incorrect paths???
         if (userPath.equals("/createAccount")) {
             userPath = "/create";
+        }
+        if (userPath.equals("/loginPage")) {
+            userPath = "/login";
         }
         //this will create a session if one does not
         //exist, or return the existing session for the
@@ -105,16 +113,23 @@ public class ControllerServlet extends HttpServlet {
         //User user = (User) session.getAttribute("user");
         
         if (userPath.equals("/login")) {
+            Users currentUser = userFacade.find(request.getParameter("username"));
+            System.out.println("Logging in with:");
+            System.out.println("Username: "+currentUser.getUsername()+" Password: "+currentUser.getPassword());
+            userPath = "/leaderboard";
+            
+            
             //handle login stuff here
             //find the user entity that matches the login deets
-            //session.setAttribute("user", the-user-id);
             
         } else if (userPath.equals("/create")) {
             String userName = request.getParameter("username");
             String passWord = request.getParameter("password");
             Users newUser = new Users(userName);
             newUser.setPassword(passWord);
+            System.out.println("Creating user named:");
             System.out.println("Username: "+newUser.getUsername()+" Password: "+newUser.getPassword());
+            System.out.println("there are "+userFacade.count()+" users so far");
             userFacade.create(newUser);
             userPath = "/leaderboard";
             
