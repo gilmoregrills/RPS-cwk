@@ -53,18 +53,20 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
         Users currentUser;
+        //this creates a session object for this connection if one does not already exist 
+        HttpSession session = request.getSession();
+        //if this session has a user attribute, get the associated Users entity
+        //and initialize currentUser with it, for user later
+        if (session.getAttribute("user") != null) {
+            System.out.println("User attribute of current session is: "+session.getAttribute("user"));
+            //currentUser = userFacade.find(session.getAttribute("user"));
+        }
         String userPath = request.getServletPath();
         System.out.println("userPath : "+request.getServletPath());
         
         if (userPath.equals("/leaderboard")) {
-            if (session.getAttribute("user") != null) {
-                currentUser = userFacade.find(session.getAttribute("user"));
-                session.setAttribute("score", currentUser.getScore());
-            } else {
-                
-            }
+            //return leaderboard somehow
 
         } else if (userPath.equals("/startGame")) {
             //return start game page/form/list of logged in users
