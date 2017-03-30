@@ -36,6 +36,11 @@ public class ControllerServlet extends HttpServlet {
     
     @EJB
     private UsersFacade userFacade;
+    public void init() throws ServletException {
+
+        // store category list in servlet context
+        getServletContext().setAttribute("allUsers", userFacade.findAll());
+    }
     
     /**
      * Handles the HTTP <code>GET</code> method.
