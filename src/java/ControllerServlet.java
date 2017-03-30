@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -28,16 +27,13 @@ import entity.Users;
                            "/leaderboard", 
                            "/startGame", 
                            "/createAccount", 
-                           "/playGame"})
+                           "/playGame",
+                           "/create"})
 public class ControllerServlet extends HttpServlet {
 
     
-    //@EJB
-    //private UserFacade userFacade;
-    
-    //public void init() throws ServletException {
-        
-    //}
+    @EJB
+    private UsersFacade userFacade;
     
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -56,7 +52,7 @@ public class ControllerServlet extends HttpServlet {
     throws ServletException, IOException {
 
         String userPath = request.getServletPath();
-        System.out.println(userPath);
+        System.out.println("userPath : "+request.getServletPath());
         
         if (userPath.equals("/leaderboard")) {
             //return leaderboard page
@@ -90,22 +86,19 @@ public class ControllerServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    //doPost is I guess what we'll use to take all account detail input (login &
-    //creation)
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        System.out.println("we got a POST request!!");
-      
-        UsersFacade userface = new UsersFacade();
         
         String userPath = request.getServletPath();
-        System.out.println("userPath pre-if: "+request.getServletPath());
-        userPath = "/create";
+        System.out.println("userPath : "+request.getServletPath());
+        if (userPath.equals("/createAccount")) {
+            userPath = "/create";
+        }
         //this will create a session if one does not
         //exist, or return the existing session for the
         //user any time a POST request is made (on login
         //etc)
-        //HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         //here's the user object thawt will be attached to the
         //session on login, get it here if it exists so as to
         //be able to use it below
@@ -117,15 +110,13 @@ public class ControllerServlet extends HttpServlet {
             //session.setAttribute("user", the-user-id);
             
         } else if (userPath.equals("/create")) {
-            System.out.println(request.getParameter("username")+request.getParameter("password"));
             String userName = request.getParameter("username");
             String passWord = request.getParameter("password");
             Users newUser = new Users(userName);
             newUser.setPassword(passWord);
-            userface.create(newUser);
-            System.out.println("pre-forward: "+userPath);
+            System.out.println("Username: "+newUser.getUsername()+" Password: "+newUser.getPassword());
+            userFacade.create(newUser);
             userPath = "/leaderboard";
-            System.out.println("post-forward: "+userPath); //should be login page in future
             
             //handle account creation (including adding new user to the db)
             //create the user entity in the database using

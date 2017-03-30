@@ -8,10 +8,7 @@ package session;
 import entity.Users;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.*;
-import java.util.List;
 
 /**
  *
@@ -19,28 +16,16 @@ import java.util.List;
  */
 @Stateless
 public class UsersFacade extends AbstractFacade<Users> {
-    
+
     @PersistenceContext(unitName = "RockPaperScissorsPU")
-    private EntityManager ecm;
-    
+    private EntityManager em;
+
     @Override
     protected EntityManager getEntityManager() {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("RockPaperScissorsPU");
-    EntityManager ecm = emf.createEntityManager(); 
-    return ecm;
+        return em;
     }
 
     public UsersFacade() {
         super(Users.class);
-    }
-    
-    public List<Users> getUsers() {
-        return findAll();
-    }
-    
-    @Override
-    public void create(Users user) {
-        getEntityManager().persist(user);
-    }
-    
+    }  
 }
