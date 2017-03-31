@@ -184,7 +184,7 @@ public class ControllerServlet extends HttpServlet {
             //    currentUser.setScore(currentUser.getScore()+2);
             //} else if (outcome.equals(draw)) {
             //    userPath = "/drawPage";
-            //    currentUser.setScore(currentUser.getScore()+2);
+            //    currentUser.setScore(currentUser.getScore()+1);
             //} else {
             //    userPath = "/lossPage";
             //}
