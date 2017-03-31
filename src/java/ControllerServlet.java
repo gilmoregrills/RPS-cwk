@@ -14,6 +14,10 @@ import javax.servlet.http.HttpSession;
 import javax.ejb.EJB;
 import session.UsersFacade;
 import entity.Users;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Iterator;
 
 
 /**
@@ -71,8 +75,22 @@ public class ControllerServlet extends HttpServlet {
         System.out.println("Routing GET request for userPath: "+request.getServletPath());
         
         if (userPath.equals("/leaderboard")) {
-            //return leaderboard somehow
-
+            //get single user data for logged in user using: 
+            //currentUser.getUsername();
+            //currentUser.getScore(); 
+            //get data for all logged in users using: 
+            List<Users> allUsers = userFacade.findAll();
+            Collections.sort(allUsers, new Comparator<Users>() {
+                @Override public int compare(Users u1, Users u2) {
+                    return u2.getScore() - u1.getScore();
+                }
+            });
+            /**For debugging: make sure the list is ordered correctly
+             * Iterator<Users> debuggo = allUsers.iterator();
+             * while (debuggo.hasNext()) {
+             *    System.out.println(debuggo.next());
+             * }
+             **/
         } else if (userPath.equals("/startGame")) {
             //return start game page/form/list of logged in users
 
