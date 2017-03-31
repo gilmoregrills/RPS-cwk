@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
                            "/login",
                            "/loginPage",
                            "/requestGame",
-                            "/makeMove"})
+                           "/makeMove"})
 public class ControllerServlet extends HttpServlet {
 
     
@@ -183,6 +183,7 @@ public class ControllerServlet extends HttpServlet {
                 session.setAttribute("playerNum", "2");
             } else {
                 games.createGame(player1, player2);
+                //System.out.println("ur opponent is: "+games.playerGames.get(player1).getUsername());
                 session.setAttribute("playerNum", "1");
                 //something that makes the player wait for a response???
                 //if there's no response kick them back to /startGame
@@ -191,7 +192,8 @@ public class ControllerServlet extends HttpServlet {
             int waitTime = 0;
             //if the request hasn't been accepted, wait 10 seconds, if player
             //waits 60 seconds the invite times out so redirect to startGame pg            
-            while(!games.requestAccepted(player1, player2) && waitTime != 60) {
+            /*
+            while(!games.requestAccepted(player1, player2) || waitTime != 10) {
                 try {
                     TimeUnit.SECONDS.sleep(1);
                     waitTime += 1;
@@ -199,15 +201,18 @@ public class ControllerServlet extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-            
+            */
             //check if a request to play with the key of the requested user
             //already exists, if not then create one!
+            /*
             if (games.requestAccepted(player1, player2)) {
                 userPath = "/playGame";            
                 session.setAttribute("opponent", player2.getUsername());
             } else {
                 userPath = "/startGame";
             }
+            */
+            userPath = "/playGame";
             
         } else if (userPath.equals("/makeMove")) {
             Users player1 = currentUser;

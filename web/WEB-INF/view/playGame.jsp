@@ -18,7 +18,7 @@
             <li role="presentation"><a href="createAccount">Create Account</a></li>
         </ul> 
         <h2>RO SHAM BO</h2>
-        <form href="makeMove" method="POST" enctype="multipart/form-data"> 
+        <form action="makeMove" method="POST" enctype="multipart/form-data"> 
             <input type="text" name="move" value="Choose Your Move"/>
             <input type="submit" value="SHOW!"/>
         </form>

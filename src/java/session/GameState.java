@@ -21,19 +21,19 @@ public class GameState {
      * String is a concat of both player names like "gameStarter+gameJoiner"
      * String[] will be the move each player makes [gameStarterMove, gameJoinerMove]
      */
-    HashMap<String, String[]> playerMoves = new HashMap<String, String[]>();
+    public HashMap<String, String[]> playerMoves = new HashMap<String, String[]>();
     
     /**
      * key Users is the user starting the game
      * value Users is the user they want to play with
      */
-    HashMap<Users, Users> playerGames = new HashMap<Users, Users>();
+    public HashMap<Users, Users> playerGames = new HashMap<Users, Users>();
     
     /**
      * key String is an identical concat of both player names as in playerMoves
      * value String is the outcome of the game, either a username or "draw"
      */
-    HashMap<String, String> gameOutcomes = new HashMap<String, String>();
+    public HashMap<String, String> gameOutcomes = new HashMap<String, String>();
     
     public String getOutcome(String gameName) {
         return gameOutcomes.get(gameName);
