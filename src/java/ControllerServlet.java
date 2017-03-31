@@ -78,13 +78,14 @@ public class ControllerServlet extends HttpServlet {
             //get single user data for logged in user using: 
             //currentUser.getUsername();
             //currentUser.getScore(); 
-            //get data for all logged in users using: 
+            //below code gets all users from the DB and sorts them into allUsers
             List<Users> allUsers = userFacade.findAll();
             Collections.sort(allUsers, new Comparator<Users>() {
                 @Override public int compare(Users u1, Users u2) {
                     return u2.getScore() - u1.getScore();
                 }
             });
+            session.setAttribute("all", allUsers);
             /**For debugging: make sure the list is ordered correctly
              * Iterator<Users> debuggo = allUsers.iterator();
              * while (debuggo.hasNext()) {

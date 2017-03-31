@@ -9,6 +9,7 @@ and open the template in the editor.
 */
 html, body {
     height: 100%;
+    width: 100%;
 }
 
 #wrap {
@@ -38,4 +39,21 @@ html, body {
     clear: both;
 }
 
+#allScores {
+    align-content: center;
+    text-align: left;
+}
 
+#userScores {
+    align-content: center;
+    text-align: left;
+}
+
+table, th, td {
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+th, td {
+    padding: 5px;
+}
