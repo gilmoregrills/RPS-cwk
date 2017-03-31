@@ -4,6 +4,7 @@
     Author     : gilmoregrills
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@tag description="base template" pageEncoding="UTF-8"%>
 
 <%-- The list of normal or fragment attributes can be specified here: --%>
@@ -20,14 +21,7 @@
       <div id="wrap">
         <div id="pageheader" class="col-md-12">
           <h1>Rock Paper Scissors</h1>
-          <h4> a dumb game by dumb students </h4>
-          <p>Temporay Navigation</p>
-            <a href="startGame">Start/Join Game |</a>
-            <a href="playGame"> Play Game Page |</a>
-            <a href="leaderboard"> Leaderboard Page |</a>
-            <a href="createAccount"> Create Account Page |</a>
-            <a href="loginPage">Login Page |</a>
-            <a href="./"> Home Page</a>
+          <h3> a dumb game by dumb students </h3>
           <jsp:invoke fragment="header"/>
         </div>
 
