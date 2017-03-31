@@ -8,12 +8,13 @@ package session;
 import javax.ejb.Singleton;
 import entity.Users;
 import java.util.HashMap;
-
+import javax.ejb.LocalBean;
 /**
  *
- * @author rpr30
+ * @author Robin Yonge
  */
 @Singleton
+@LocalBean
 public class GameState {
     
     /**
@@ -34,32 +35,76 @@ public class GameState {
      */
     HashMap<String, String> gameOutcomes = new HashMap<String, String>();
     
-    /**
-     * get the moves for an existing game
-     */
-    public String[] getMoves(String userNames) {
-        return playerMoves.get(userNames);
+    public String getOutcome(String gameName) {
+        return gameOutcomes.get(gameName);
     }
     
     /**
-     * is the user you're searching for already looking to play a game against you? 
-     * if yes you can go ahead
-     * if no create an entry in playerGames
+     * get the moves for an existing game
      */
-    public void findOrCreateGame(Users currentUser, Users opponentUser) {
-        if (!playerGames.containsKey(currentUser)) {
-            playerGames.put(currentUser, opponentUser);
+    public String getOpponentMove(String playerName, String gameName) {
+        String[] gameMoves = playerMoves.get(gameName);
+        if (playerGames.containsKey(playerName)) {
+            return gameMoves[1];
+        } else {
+            return gameMoves[0];
+        }
+    }
+    
+    public boolean movesMade(String gameName) {
+        String[] moves = playerMoves.get(gameName);
+        if (moves[0] != null && moves[1] != null) {
+            return true;
+        } else {
+            return false;
         }
     }
     
     /**
-     * get the outcome of the game between the two users
-     * 
+     * send a player's move
      */
-    public String getOutcome(String userNames) {
-        return gameOutcomes.get(userNames);
+    public void makeMove(String playerName, String gameName, String move) {
+        if (playerGames.containsKey(playerName)) {
+            String[] moves = playerMoves.get(gameName);
+            moves[0] = move;
+            playerMoves.put(gameName, moves);
+        } else {
+            String[] moves = playerMoves.get(gameName);
+            moves[1] = move;
+            playerMoves.put(gameName, moves);
+        }
     }
     
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    /**
+     * is the user you're searching for already looking to play a game against you? 
+     */
+    public boolean findGame(Users currentUser, Users opponentUser) {
+        if (playerGames.containsValue(currentUser) && playerGames.containsKey(opponentUser)) {
+            //if there is a game request that fits your request, create entry in moves
+            String gameName = currentUser.getUsername()+opponentUser.getUsername();
+            playerMoves.put(gameName, new String[2]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * create a game in the playerGames hash map
+     * create somewhere for moves to go
+     */
+    public void createGame(Users currentUser, Users opponentUser) {
+        playerGames.put(currentUser, opponentUser);
+    }
+    /**
+     * check if request has been accepted
+     */
+    public boolean requestAccepted(Users currentUser, Users opponentUser) {
+        String gameName = currentUser.getUsername()+opponentUser.getUsername();
+        if (playerMoves.containsKey(gameName)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

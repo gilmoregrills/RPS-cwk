@@ -17,14 +17,12 @@
             <li role="presentation"><a href="playGame">Play Game</a></li>
             <li role="presentation"><a href="createAccount">Create Account</a></li>
         </ul> 
-        <h2>Start Game</h2>
-        <form href="requestGame" method="POST" enctype="multipart/form-data"> 
-            <input type="text" name="player1" value="player1"/>
-            <input type="text" name="player2" value="player2"/>
+        <h2>Find Game</h2>
+        <p>Choose Your Opponent</p>
+        <form action="requestGame" method="POST" enctype="multipart/form-data">
+            <input type="text" name="opponent" value=""/>
             <input type="submit" value="Start"/>
         </form>
-        <h2>Join Game</h2>
-        <p>Join a game!!</p>
     </jsp:body>
     
     

@@ -13,5 +13,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface winnerOfGameLocal {
-    String winnerOfGame(String playername1, String playername2, char player1Choice, char player2Choice) ;
+    
+    String winnerOfGame(String playername1, String playername2, String player1Choice, String player2Choice);
 }

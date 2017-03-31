@@ -15,10 +15,13 @@ import javax.ejb.EJB;
 import session.UsersFacade;
 import entity.Users;
 import session.AvailableUsers;
+import session.GameState;
+import stateless_game.winnerOfGame;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -35,13 +38,23 @@ import java.util.Iterator;
                            "/playGame",
                            "/create",
                            "/login",
-                           "/loginPage"})
+                           "/loginPage",
+                           "/requestGame",
+                            "/makeMove"})
 public class ControllerServlet extends HttpServlet {
 
     
     @EJB
     UsersFacade userFacade;
-    AvailableUsers available;
+    
+    @EJB
+    AvailableUsers availableUsers;
+    
+    @EJB 
+    GameState games;
+    
+    @EJB
+    winnerOfGame rps;
     public void init() throws ServletException {
 
         // store category list in servlet context
@@ -133,7 +146,7 @@ public class ControllerServlet extends HttpServlet {
         
         String userPath = request.getServletPath();
         System.out.println("Routing POST request for userPath: "+request.getServletPath());
-        Users currentUser;
+        Users currentUser = null;
         
         //this creates a session object for this connection if one does not already exist 
         HttpSession session = request.getSession();
@@ -148,7 +161,7 @@ public class ControllerServlet extends HttpServlet {
             Users returningUser = userFacade.find(request.getParameter("username"));
             session.setAttribute("user", returningUser.getUsername());
             session.setAttribute("score", returningUser.getScore());
-            available.addLoggedIn(returningUser);
+            availableUsers.addLoggedIn(returningUser);
             //once logged in, redirect to startGame page
             userPath = "/startGame";
             
@@ -162,32 +175,92 @@ public class ControllerServlet extends HttpServlet {
             //account created, redirect to login page
             userPath = "/loginPage";
                         
-        } else if (userPath.equals("requestGame")) {
+        } else if (userPath.equals("/requestGame")) {
+            Users player1 = currentUser;
+            Users player2 = userFacade.find(request.getParameter("opponent"));
+            if (games.findGame(player1, player2)) {
+                userPath = "playGame";
+                session.setAttribute("playerNum", "2");
+            } else {
+                games.createGame(player1, player2);
+                session.setAttribute("playerNum", "1");
+                //something that makes the player wait for a response???
+                //if there's no response kick them back to /startGame
+            }
+            System.out.println("requesting game between: "+player2.getUsername()+" and "+player1.getUsername());
+            int waitTime = 0;
+            //if the request hasn't been accepted, wait 10 seconds, if player
+            //waits 60 seconds the invite times out so redirect to startGame pg            
+            while(!games.requestAccepted(player1, player2) && waitTime != 60) {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                    waitTime += 1;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            
             //check if a request to play with the key of the requested user
             //already exists, if not then create one!
-            userPath = "/playGame";
+            if (games.requestAccepted(player1, player2)) {
+                userPath = "/playGame";            
+                session.setAttribute("opponent", player2.getUsername());
+            } else {
+                userPath = "/startGame";
+            }
             
-        } else if (userPath.equals("makeMove")) {
-            //send the move choice to the right String[] array in GameState.playerMoves
-            //if the first index is null, move goes there and we wait?
-            //if the first index contains a value, the other player has already 
-            //made their move and our move goes in the second index
+        } else if (userPath.equals("/makeMove")) {
+            Users player1 = currentUser;
+            Users player2 = userFacade.find(session.getAttribute("opponent"));
+            String gameName = player1.getUsername()+player2.getUsername();
+            System.out.println(request.getParameter("move"));
+            String playerMove = request.getParameter("move");
+            String playerNumber = session.getAttribute("playerNum").toString();
+            games.makeMove(player1.getUsername(), gameName, playerMove);
+            int waitTime = 0;
+            //give other player 60 seconds to make their move
+            while(!games.movesMade(gameName) && waitTime == 60) {
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                    waitTime += 10;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            //timeout or somethint???
+            //if (waitTime == 60) {
+            //    userPath = "/startGame";
+                //redirect to the startGame page somehow, timeout effectively
+            //}
+            String opponentMove = games.getOpponentMove(player1.getUsername(), gameName);
+            if (playerNumber.equals("1")) { //if player 1, calculate the winner
+                String outcome = rps.winnerOfGame(player1.getUsername(), player2.getUsername(), playerMove, opponentMove);
+            } else { //WORKAROUND - if player 2 wait for a few seconds
+                while(games.getOutcome(gameName) == null) {
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                        //potentially add timeout here too
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }   
+                }
+            }
             //because that means both players have made their decision, we pass
             //this state information to the game playing script and it tells us
             //the username of the winner! Winner should potentially be stored in the singleton too
             
-            //String outcome; <- the winner of the game, could be based on
-            //an if (winner.equals(currentUser)) or something so that the outcome
-            //is different for each player
-            //if (outcome.equals(win)) { 
-            //    userPath = "/winPage";
-            //    currentUser.setScore(currentUser.getScore()+2);
-            //} else if (outcome.equals(draw)) {
-            //    userPath = "/drawPage";
-            //    currentUser.setScore(currentUser.getScore()+1);
-            //} else {
-            //    userPath = "/lossPage";
-            //}
+            String outcome = games.getOutcome(gameName);
+            
+            if (outcome.equals(player1.getUsername())) {
+                userPath = "/winPage";
+                player1.setScore(currentUser.getScore() + 2);
+            } else if (outcome.equals("draw")) {
+                userPath = "/drawPage";
+                player1.setScore(currentUser.getScore() + 1);
+            } else { //it was a loss
+                userPath = "lossPage";
+            }
+
         }
 
         // use RequestDispatcher to forward request internally

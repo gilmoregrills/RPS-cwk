@@ -8,14 +8,16 @@ package session;
 import javax.ejb.Singleton;
 import java.util.ArrayList;
 import entity.Users;
-import session.UsersFacade;
+import javax.ejb.LocalBean;
 /**
  *
  * @author Robin Yonge
  */
 
 @Singleton
-public abstract class AvailableUsers {
+@LocalBean
+public class AvailableUsers {
+    
     ArrayList<Users> loggedIn = new ArrayList<Users>();
     
     public void addLoggedIn(Users user) {

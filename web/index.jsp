@@ -17,13 +17,13 @@
             <li role="presentation"><a href="playGame">Play Game</a></li>
             <li role="presentation"><a href="createAccount">Create Account</a></li>
         </ul> 
-        <div class="button1">
-            <button type="button" class="btn btn-secondary btn-lg" href="loginPage">Login</button>
-        </div>
+        <div class="button1"><a href ="loginPage">
+            <button type="button" class="btn btn-secondary btn-lg" >Login</button>
+        </a></div>
         
-        <div class="button2">
-            <button type="button" class="btn btn-secondary btn-lg" href="createAccount">Create Account</button>
-        </div>
+        <div class="button2"><a href="createAccount">
+            <button type="button" class="btn btn-secondary btn-lg">Create Account</button>
+            </a></div>
     </jsp:body>
         
 </t:base>
