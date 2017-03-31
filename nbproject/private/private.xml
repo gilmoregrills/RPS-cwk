@@ -3,7 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/homes/rpr30/NetBeansProjects/rps-cwk/src/conf/persistence.xml</file>
+            <file>file:/homes/rpr30/NetBeansProjects/rps-cwk/src/java/stateless_game/gameMain.java</file>
+            <file>file:/homes/rpr30/NetBeansProjects/rps-cwk/src/java/ControllerServlet.java</file>
         </group>
     </open-files>
 </project-private>

@@ -35,25 +35,25 @@ public class gameMain implements gameMainLocal {
         
         String gameWinner = "";
         
-        introMessage(playername1);
+        //introMessage(playername1);
         // Has Player 1 clicked on 'Start game' button?
-        playername1Ready = readyToBegin(player1ToBegin);
+        //playername1Ready = readyToBegin(player1ToBegin);
             
-        introMessage(playername2);
+        //introMessage(playername2);
         // Has player 1 clicked on 'Start game' button?
-        playername2Ready = readyToBegin(player2ToBegin);
+        //playername2Ready = readyToBegin(player2ToBegin);
         
         if (playername1Ready && playername2Ready){
             System.out.println("Let's play Rock, Paper, Scissors!");
         
-            char player1Choice = playerChoices(playername1);
-            char player2Choice = playerChoices(playername2);
+            //char player1Choice = playerChoices(playername1);
+            //char player2Choice = playerChoices(playername2);
             
             //TESTING ONLY
             //char player1Choice = 'S';
             //char player2Choice = 'P';
             
-            gameWinner = winnerOfGame(playername1, playername2, player1Choice, player2Choice);
+            //gameWinner = winnerOfGame(playername1, playername2, player1Choice, player2Choice);
             
             //TEST OUTPUT - final returned value is name of winner, or "draw"
             System.out.println(gameWinner);

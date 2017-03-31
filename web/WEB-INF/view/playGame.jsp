@@ -17,7 +17,11 @@
             <li role="presentation" class="active"><a href="playGame">Play Game</a></li>
             <li role="presentation"><a href="createAccount">Create Account</a></li>
         </ul> 
-        <h2>Playing Rock Paper Scissors</h2>
+        <h2>RO SHAM BO</h2>
+        <form href="makeMove" method="POST" enctype="multipart/form-data"> 
+            <input type="text" name="move" value="Choose Your Move"/>
+            <input type="submit" value="SHOW!"/>
+        </form>
     </jsp:body>
     
     

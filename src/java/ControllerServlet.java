@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.ejb.EJB;
 import session.UsersFacade;
 import entity.Users;
+import session.AvailableUsers;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -39,7 +40,8 @@ public class ControllerServlet extends HttpServlet {
 
     
     @EJB
-    private UsersFacade userFacade;
+    UsersFacade userFacade;
+    AvailableUsers available;
     public void init() throws ServletException {
 
         // store category list in servlet context
@@ -60,8 +62,9 @@ public class ControllerServlet extends HttpServlet {
      **/
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        System.out.println("raw userPath: "+request.getServletPath());
         
+        String userPath = request.getServletPath();
+        System.out.println("Routing GET request for userPath: "+request.getServletPath());
         Users currentUser;
         //this creates a session object for this connection if one does not already exist 
         HttpSession session = request.getSession();
@@ -71,9 +74,7 @@ public class ControllerServlet extends HttpServlet {
             System.out.println("User attribute of current session is: "+session.getAttribute("user"));
             currentUser = userFacade.find(session.getAttribute("user"));
         }
-        String userPath = request.getServletPath();
-        System.out.println("Routing GET request for userPath: "+request.getServletPath());
-        
+
         if (userPath.equals("/leaderboard")) {
             //get single user data for logged in user using: 
             //currentUser.getUsername();
@@ -129,12 +130,9 @@ public class ControllerServlet extends HttpServlet {
      **/
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        System.out.println("raw userPath: "+request.getServletPath());
         
         String userPath = request.getServletPath();
-        //hacky workarounds, for POST requests with incorrect paths???
         System.out.println("Routing POST request for userPath: "+request.getServletPath());
-        //the current logged in user, not initialized yet
         Users currentUser;
         
         //this creates a session object for this connection if one does not already exist 
@@ -148,11 +146,9 @@ public class ControllerServlet extends HttpServlet {
         
         if (userPath.equals("/login")) {
             Users returningUser = userFacade.find(request.getParameter("username"));
-                        System.out.println("Logging in with:");
-                        System.out.println("Username: "+returningUser.getUsername()+" Password: "+returningUser.getPassword());
             session.setAttribute("user", returningUser.getUsername());
             session.setAttribute("score", returningUser.getScore());
-                        System.out.println("User attribute of current session is: "+session.getAttribute("user"));
+            available.addLoggedIn(returningUser);
             //once logged in, redirect to startGame page
             userPath = "/startGame";
             
@@ -162,19 +158,36 @@ public class ControllerServlet extends HttpServlet {
             Users newUser = new Users(userName);
             newUser.setPassword(passWord);
             newUser.setScore(new Integer(0));
-                        System.out.println("Creating user named:");
-                        System.out.println("Username: "+newUser.getUsername()+" Password: "+newUser.getPassword());
-                        System.out.println("there are "+userFacade.count()+" users so far");
             userFacade.create(newUser);
             //account created, redirect to login page
-                        System.out.println("user path is "+userPath);
             userPath = "/loginPage";
-                        System.out.println("user path is "+userPath);
                         
-        } else if (userPath.equals("./")) {
-            //handle request to start a game (probs just pass
-            //data to the game-handling code)
+        } else if (userPath.equals("requestGame")) {
+            //check if a request to play with the key of the requested user
+            //already exists, if not then create one!
+            userPath = "/playGame";
             
+        } else if (userPath.equals("makeMove")) {
+            //send the move choice to the right String[] array in GameState.playerMoves
+            //if the first index is null, move goes there and we wait?
+            //if the first index contains a value, the other player has already 
+            //made their move and our move goes in the second index
+            //because that means both players have made their decision, we pass
+            //this state information to the game playing script and it tells us
+            //the username of the winner! Winner should potentially be stored in the singleton too
+            
+            //String outcome; <- the winner of the game, could be based on
+            //an if (winner.equals(currentUser)) or something so that the outcome
+            //is different for each player
+            //if (outcome.equals(win)) { 
+            //    userPath = "/winPage";
+            //    currentUser.setScore(currentUser.getScore()+2);
+            //} else if (outcome.equals(draw)) {
+            //    userPath = "/drawPage";
+            //    currentUser.setScore(currentUser.getScore()+2);
+            //} else {
+            //    userPath = "/lossPage";
+            //}
         }
 
         // use RequestDispatcher to forward request internally
