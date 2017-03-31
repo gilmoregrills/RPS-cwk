@@ -18,7 +18,7 @@ import entity.Users;
 
 /**
  *
- * @author gilmoregrills
+ * @author Robin Yonge
  */
 //a urlPattern for each page, basically 
 @WebServlet(name="ControllerServlet",
@@ -50,13 +50,13 @@ public class ControllerServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    //doGet primarily handles page requests, as you can kinda see from the
-    //if/else blocks below 
-    //All of the pages aside from the index page should be here
-    //the index page can just be accessed from the root url and
-    //linked to on pages with "./"
+    /**
+     * doGet primarily handles page routing and the fetching of information,
+     * anything involving input will be handled by doPost
+     **/
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        System.out.println("raw userPath: "+request.getServletPath());
         
         Users currentUser;
         //this creates a session object for this connection if one does not already exist 
@@ -65,10 +65,10 @@ public class ControllerServlet extends HttpServlet {
         //and initialize currentUser with it, for user later
         if (session.getAttribute("user") != null) {
             System.out.println("User attribute of current session is: "+session.getAttribute("user"));
-            //currentUser = userFacade.find(session.getAttribute("user"));
+            currentUser = userFacade.find(session.getAttribute("user"));
         }
         String userPath = request.getServletPath();
-        System.out.println("userPath : "+request.getServletPath());
+        System.out.println("Routing GET request for userPath: "+request.getServletPath());
         
         if (userPath.equals("/leaderboard")) {
             //return leaderboard somehow
@@ -104,21 +104,19 @@ public class ControllerServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    /**
+     * doPost handles taking input and interacting with session beans, most of 
+     * these methods will route to a view after executing. 
+     **/
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        System.out.println("raw userPath: "+request.getServletPath());
         
         String userPath = request.getServletPath();
-        System.out.println("userPath : "+request.getServletPath());
+        //hacky workarounds, for POST requests with incorrect paths???
+        System.out.println("Routing POST request for userPath: "+request.getServletPath());
         //the current logged in user, not initialized yet
         Users currentUser;
-        
-        //hacky workarounds, for POST requests with incorrect paths???
-        if (userPath.equals("/createAccount")) {
-            userPath = "/create";
-        }
-        if (userPath.equals("/loginPage")) {
-            userPath = "/login";
-        }
         
         //this creates a session object for this connection if one does not already exist 
         HttpSession session = request.getSession();
@@ -128,13 +126,14 @@ public class ControllerServlet extends HttpServlet {
             System.out.println("User attribute of current session is: "+session.getAttribute("user"));
             currentUser = userFacade.find(session.getAttribute("user"));
         }
+        
         if (userPath.equals("/login")) {
             Users returningUser = userFacade.find(request.getParameter("username"));
-            System.out.println("Logging in with:");
-            System.out.println("Username: "+returningUser.getUsername()+" Password: "+returningUser.getPassword());
+                        System.out.println("Logging in with:");
+                        System.out.println("Username: "+returningUser.getUsername()+" Password: "+returningUser.getPassword());
             session.setAttribute("user", returningUser.getUsername());
             session.setAttribute("score", returningUser.getScore());
-            System.out.println("User attribute of current session is: "+session.getAttribute("user"));
+                        System.out.println("User attribute of current session is: "+session.getAttribute("user"));
             //once logged in, redirect to startGame page
             userPath = "/startGame";
             
@@ -143,13 +142,16 @@ public class ControllerServlet extends HttpServlet {
             String passWord = request.getParameter("password");
             Users newUser = new Users(userName);
             newUser.setPassword(passWord);
-            System.out.println("Creating user named:");
-            System.out.println("Username: "+newUser.getUsername()+" Password: "+newUser.getPassword());
-            System.out.println("there are "+userFacade.count()+" users so far");
+            newUser.setScore(new Integer(0));
+                        System.out.println("Creating user named:");
+                        System.out.println("Username: "+newUser.getUsername()+" Password: "+newUser.getPassword());
+                        System.out.println("there are "+userFacade.count()+" users so far");
             userFacade.create(newUser);
             //account created, redirect to login page
+                        System.out.println("user path is "+userPath);
             userPath = "/loginPage";
-            
+                        System.out.println("user path is "+userPath);
+                        
         } else if (userPath.equals("./")) {
             //handle request to start a game (probs just pass
             //data to the game-handling code)

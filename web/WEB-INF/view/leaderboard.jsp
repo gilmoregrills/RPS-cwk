@@ -2,7 +2,7 @@
 <%-- 
     Document   : leaderboard
     Created on : 22-Mar-2017, 16:11:45
-    Author     : gilmoregrills
+    Author     : Robin Yonge
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
