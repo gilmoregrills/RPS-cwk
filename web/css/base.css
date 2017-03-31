@@ -17,6 +17,8 @@ html, body {
 }
 
 #pageheader {
+    margin-top: -20px;
+    padding-top: 20px;
     padding-bottom: 20px;
     text-align: center;
     background-color: #3276b1;
@@ -75,4 +77,15 @@ table, th, td {
 
 th, td {
     padding: 5px;
+}
+
+btn {
+    display: inline-block;
+}
+
+.button1 {
+    padding-top: 15px;
+}
+.button2 {
+    padding-top: 30px;
 }

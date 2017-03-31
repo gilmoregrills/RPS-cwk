@@ -9,8 +9,21 @@
 <t:base>
       
     <jsp:body>
-        <a href="loginPage"><h2>Continue to Login</h2></a>
-        <a href="createAccount"><h2>Create account first</h2></a>
+        <ul class="nav nav-pills">
+            <li role="presentation" class="active"><a href="./">Home</a></li>
+            <li role="presentation"><a href="loginPage">Login</a></li>
+            <li role="presentation"><a href="leaderboard">Leaderboard</a></li>
+            <li role="presentation"><a href="startGame">Start Game</a></li>
+            <li role="presentation"><a href="playGame">Play Game</a></li>
+            <li role="presentation"><a href="createAccount">Create Account</a></li>
+        </ul> 
+        <div class="button1">
+            <button type="button" class="btn btn-secondary btn-lg" href="loginPage">Login</button>
+        </div>
+        
+        <div class="button2">
+            <button type="button" class="btn btn-secondary btn-lg" href="createAccount">Create Account</button>
+        </div>
     </jsp:body>
         
 </t:base>
