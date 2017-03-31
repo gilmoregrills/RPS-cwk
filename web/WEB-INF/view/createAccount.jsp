@@ -10,6 +10,14 @@
 <t:base>
     
     <jsp:body>
+        <ul class="nav nav-pills">
+            <li role="presentation"><a href="./">Home</a></li>
+            <li role="presentation"><a href="loginPage">Login</a></li>
+            <li role="presentation"><a href="leaderboard">Leaderboard</a></li>
+            <li role="presentation"><a href="startGame">Start Game</a></li>
+            <li role="presentation"><a href="playGame">Play Game</a></li>
+            <li role="presentation" class="active"><a href="createAccount">Create Account</a></li>
+        </ul> 
         <h2>Create Account</h2>
         <form action="create" method="POST" enctype="multipart/form-data"> 
             <input type="text" name="username" value="username" />

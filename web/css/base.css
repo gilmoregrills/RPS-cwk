@@ -17,16 +17,35 @@ html, body {
 }
 
 #pageheader {
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     text-align: center;
-    background-color: #e6ffff;
+    background-color: #3276b1;
 }
+h3, h1 {
+    color: #ffffff;
+}
+
+.nav {
+    align-self: center;
+    display: inline-block;
+    padding-bottom: 30px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+  color: #ffffff;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+
 
 #body {
     overflow: auto;
     text-align: center;
     min-height: 200px;
-    padding-top: 50px;
+    padding-top: 10px;
     padding-bottom: 150px;
 }
 
@@ -34,7 +53,7 @@ html, body {
     position:relative;
     margin-top: -150px;
     text-align: center;
-    background-color: #e6ffff;
+    background-color: #3276b1;
     height: 150px;
     clear: both;
 }
@@ -50,7 +69,7 @@ html, body {
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 0px solid black;
     margin: 0 auto;
 }
 
