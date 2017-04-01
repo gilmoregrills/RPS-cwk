@@ -52,27 +52,47 @@ public class GameState {
     }
     
     public boolean movesMade(String gameName) {
-        String[] moves = playerMoves.get(gameName);
-        if (moves[0] != null && moves[1] != null) {
+        return true;
+        /*
+        String[] moves = new String[2];
+        moves = playerMoves.get(gameName);
+        System.out.println("stored " + moves[0]);
+        System.out.println(moves[1]);
+        if (moves[0] != null || moves[1] != null) {
             return true;
         } else {
             return false;
-        }
+        }*/
     }
     
     /**
      * send a player's move
      */
-    public void makeMove(String playerName, String gameName, String move) {
-        if (playerGames.containsKey(playerName)) {
-            String[] moves = playerMoves.get(gameName);
+    public void makeMove(Users player, String gameName, String move) {
+        
+        System.out.println("Is player one?: "+ playerGames.containsKey(player));
+        String[] moves = new String[2];
+        if (playerMoves.containsKey(gameName)){
+            System.out.println("not null!!!!!");
+        }
+        
+        
+        if (playerGames.containsKey(player)) {
+            //String[] retreiveMoves = playerMoves.get(gameName);
             moves[0] = move;
             playerMoves.put(gameName, moves);
+            System.out.println(moves[0]);
+            String[] retreiveMoves = playerMoves.get(gameName);
+            System.out.println("getmoves "+ retreiveMoves[0] + retreiveMoves[1]);
+            //set player one move to hashmap
         } else {
-            String[] moves = playerMoves.get(gameName);
+            //String[] retreiveMoves = playerMoves.get(gameName);
             moves[1] = move;
             playerMoves.put(gameName, moves);
+            System.out.println(moves[1]);
+            //set player two move to hashmap
         }
+       
     }
     
     /**
@@ -82,6 +102,7 @@ public class GameState {
         if (playerGames.containsValue(currentUser) && playerGames.containsKey(opponentUser)) {
             //if there is a game request that fits your request, create entry in moves
             String gameName = currentUser.getUsername()+opponentUser.getUsername();
+            System.out.println("from bean " + gameName);
             playerMoves.put(gameName, new String[2]);
             return true;
         } else {
@@ -95,6 +116,7 @@ public class GameState {
      */
     public void createGame(Users currentUser, Users opponentUser) {
         playerGames.put(currentUser, opponentUser);
+        
     }
     /**
      * check if request has been accepted
