@@ -240,6 +240,7 @@ public class ControllerServlet extends HttpServlet {
             String opponentMove = games.getOpponentMove(player1.getUsername(), gameName);
             if (playerNumber.equals("1")) { //if player 1, calculate the winner
                 String outcome = rps.winnerOfGame(player1.getUsername(), player2.getUsername(), playerMove, opponentMove);
+                //I never actually set the right value in the game outcome hashmap! 
             } else { //WORKAROUND - if player 2 wait for a few seconds
                 while(games.getOutcome(gameName) == null) {
                     try {
